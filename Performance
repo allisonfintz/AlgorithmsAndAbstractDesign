@@ -1,0 +1,53 @@
+package Programs; 
+
+import java.util.Random;
+
+public class Performance {
+	
+	public static int[] randomArray(int size, int min, int max) {
+		int[] a = new int[size];
+        Random r = new Random();
+        for (int i = 0; i < size; i++) {
+            a[i] = r.nextInt(max - min + 1) + min;
+        }
+        return a;
+    }
+	
+    public static void main(String[] args) {
+        int[] sizes = {1000, 2000, 3000, 4000, 5000};
+        int W = 9; 
+        //run program before testing time complexity to discount background time
+        int[] h = randomArray(sizes[0], 1, 40);
+        int[] w = randomArray(sizes[0], 1, W);
+        Programs.Program1.Result result_1 = Programs.Program1.program1(sizes[0], W, h, w);
+        Programs.Program2.Result result_2 = Programs.Program2.program2(sizes[0], W, h, w);
+        
+        //create array of times to log
+        long[] times = new long[5];
+        
+        //test time complexity for program1
+        for(int i = 0 ; i < sizes.length; i++) {
+        	int[] heights = randomArray(sizes[i], 1, 40);
+            int[] widths = randomArray(sizes[i], 1, W);
+            long start = System.nanoTime();
+            Programs.Program1.Result result1 = Programs.Program1.program1(sizes[i], W, heights, widths);
+            long end = System.nanoTime();
+            times[i] = end - start;
+            System.out.println("Program1 size " + sizes[i] + ": " + times[i] + " ns");
+        }
+        
+        //test time complexity for program 2
+        for(int i = 0 ; i < sizes.length; i++) {
+        	int[] heights = randomArray(sizes[i], 1, 1000);
+            int[] widths = randomArray(sizes[i], 1, W);
+            long start = System.nanoTime();
+            Programs.Program2.Result result2 = Programs.Program2.program2(sizes[i], W, heights, widths);
+            long end = System.nanoTime();
+            times[i] = end - start;
+            System.out.println("Program2 size " + sizes[i] + ": " + times[i] + " ns");
+        }
+	}
+	
+};
+
+
