@@ -1,3 +1,5 @@
+package Programs;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,7 @@ class Program2 {
      * @return Result object containing the number of platforms, total height of the
      *         paintings, and the number of paintings on each platform
      */
-    private static Result program2(int n, int W, int[] heights, int[] widths) {
+    static Result program2(int n, int W, int[] heights, int[] widths) {
         int totalHeight = 0;
         int numPlatforms = 0;
         List<Integer> paintingsPerPlat = new ArrayList<>();
@@ -96,7 +98,6 @@ class Program2 {
 
         return new Result(numPlatforms, totalHeight, numPaintings);
     }
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
