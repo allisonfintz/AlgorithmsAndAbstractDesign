@@ -1,9 +1,11 @@
+package Programs; 
+
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
 class Program1 {
-    public record Result(int numPlatforms, int totalHeight, int[] numPaintings) {}
+    public record Result(int numPlatforms, int totalHeight, int[] numPaintings) {};
 
     /**
      * Solution to program 1
@@ -15,7 +17,7 @@ class Program1 {
      * @return Result object containing the number of platforms, total height of the
      *         paintings, and the number of paintings on each platform
      */
-    private static Result program1(int n, int W, int[] heights, int[] widths) {
+    static Result program1(int n, int W, int[] heights, int[] widths) {
         int totalHeight = 0;
         int numPlatforms = 0;
         List<Integer> paintingsPerPlatform = new ArrayList<>();
@@ -53,7 +55,6 @@ class Program1 {
 
         return new Result(numPlatforms, totalHeight, numPaintings);
     }
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
@@ -74,4 +75,5 @@ class Program1 {
             System.out.println(result.numPaintings[i]);
         }
     }
+
 }
