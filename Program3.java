@@ -16,14 +16,12 @@ class Program3 {
      *         and the number of paintings on each platform
      */
     private static Result program3(int n, int w, int[] heights, int[] widths) {
-        // Initialize the minimum total height to a large value
-        int minTotalHeight = Integer.MAX_VALUE;
-        int[] bestNumPaintings = null; // Stores the number of paintings on each platform for the best partition
-
+        int minHeight = Integer.MAX_VALUE;
+        int[] bestNumPaintings = null; 
+        
         // There are 2^(n-1) possible ways to partition the paintings
         int totalPartitions = 1 << (n - 1); // 2^(n-1)
 
-        // For each possible partition
         for (int partition = 0; partition < totalPartitions; partition++) {
             int totalHeight = 0;
             int start = 0;
@@ -55,14 +53,14 @@ class Program3 {
             }
 
             // If this partition has a lower total height, update the best partition
-            if (totalHeight < minTotalHeight) {
-                minTotalHeight = totalHeight;
+            if (totalHeight < minHeight) {
+                minHeight = totalHeight;
                 bestNumPaintings = numPaintingsList.stream().mapToInt(x -> x).toArray();
             }
         }
 
         int numPlatforms = bestNumPaintings != null ? bestNumPaintings.length : 0;
-        return new Result(numPlatforms, minTotalHeight, bestNumPaintings);
+        return new Result(numPlatforms, minHeight, bestNumPaintings);
     }
 
     public static void main(String[] args) {
