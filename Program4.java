@@ -16,13 +16,13 @@ class Program4 {
      *         and the number of paintings on each platform
      */
     private static Result program4(int n, int w, int[] heights, int[] widths) {
-        int[] minTotalHeight = new int[n + 1];
-        int[] splitPoint = new int[n + 1];
+        int[] minHeight = new int[n + 1];
+        int[] split = new int[n + 1];
 
-        minTotalHeight[0] = 0;
+        minHeight[0] = 0;
 
         for (int i = 1; i <= n; i++) {
-            minTotalHeight[i] = Integer.MAX_VALUE;
+            minHeight[i] = Integer.MAX_VALUE;
             for (int j = 0; j < i; j++) {
                 int totalWidth = 0;
                 int maxHeight = 0;
@@ -31,26 +31,25 @@ class Program4 {
                     maxHeight = Math.max(maxHeight, heights[k]);
                 }
                 if (totalWidth <= w) {
-                    int totalHeight = minTotalHeight[j] + maxHeight;
-                    if (totalHeight < minTotalHeight[i]) {
-                        minTotalHeight[i] = totalHeight;
-                        splitPoint[i] = j;
+                    int totalHeight = minHeight[j] + maxHeight;
+                    if (totalHeight < minHeight[i]) {
+                        minHeight[i] = totalHeight;
+                        split[i] = j;
                     }
                 }
             }
         }
 
-        // Reconstruct the number of paintings on each platform
-        List<Integer> numPaintingsList = new ArrayList<>();
+        List<Integer> paintings = new ArrayList<>();
         int index = n;
         while (index > 0) {
-            int start = splitPoint[index];
-            numPaintingsList.add(0, index - start);
+            int start = split[index];
+            paintings.add(0, index - start);
             index = start;
         }
 
-        int numPlatforms = numPaintingsList.size();
-        return new Result(numPlatforms, minTotalHeight[n], numPaintingsList.stream().mapToInt(i -> i).toArray());
+        int numPlatforms = paintings.size();
+        return new Result(numPlatforms, minHeight[n], paintings.stream().mapToInt(i -> i).toArray());
     }
 
     public static void main(String[] args) {
