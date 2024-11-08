@@ -18,26 +18,26 @@ class Program5A {
      */
     private static Result program5A(int n, int w, int[] heights, int[] widths) {
         int[] memo = new int[n + 1];
-        int[] splitPoint = new int[n + 1];
+        int[] split = new int[n + 1];
         Arrays.fill(memo, -1);
         memo[0] = 0;
 
-        computeMinTotalHeight(n, w, heights, widths, memo, splitPoint);
+        computeMinTotalHeight(n, w, heights, widths, memo, split);
 
         // Reconstruct the number of paintings on each platform
-        List<Integer> numPaintingsList = new ArrayList<>();
+        List<Integer> paintings = new ArrayList<>();
         int index = n;
         while (index > 0) {
-            int start = splitPoint[index];
-            numPaintingsList.add(0, index - start);
+            int start = split[index];
+            paintings.add(0, index - start);
             index = start;
         }
 
-        int numPlatforms = numPaintingsList.size();
-        return new Result(numPlatforms, memo[n], numPaintingsList.stream().mapToInt(i -> i).toArray());
+        int numPlatforms = paintings.size();
+        return new Result(numPlatforms, memo[n], paintings.stream().mapToInt(i -> i).toArray());
     }
 
-    private static int computeMinTotalHeight(int i, int w, int[] heights, int[] widths, int[] memo, int[] splitPoint) {
+    private static int computeMinTotalHeight(int i, int w, int[] heights, int[] widths, int[] memo, int[] split) {
         if (memo[i] != -1) {
             return memo[i];
         }
@@ -50,17 +50,17 @@ class Program5A {
             totalWidth += widths[j];
             maxHeight = Math.max(maxHeight, heights[j]);
             if (totalWidth <= w) {
-                int totalHeight = computeMinTotalHeight(j, w, heights, widths, memo, splitPoint) + maxHeight;
+                int totalHeight = computeMinTotalHeight(j, w, heights, widths, memo, split) + maxHeight;
                 if (totalHeight < minTotalHeight) {
                     minTotalHeight = totalHeight;
                     bestSplit = j;
                 }
             } else {
-                break; // No need to check earlier j
+                break;
             }
         }
         memo[i] = minTotalHeight;
-        splitPoint[i] = bestSplit;
+        split[i] = bestSplit;
         return minTotalHeight;
     }
 
