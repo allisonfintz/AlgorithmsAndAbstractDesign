@@ -20,7 +20,7 @@ class Program3 {
         int[] bestNumPaintings = null; 
         
         // There are 2^(n-1) possible ways to partition the paintings
-        int totalPartitions = 1 << (n - 1); // 2^(n-1)
+        int totalPartitions = (int) Math.pow(2, (n - 1));
 
         for (int partition = 0; partition < totalPartitions; partition++) {
             int totalHeight = 0;
