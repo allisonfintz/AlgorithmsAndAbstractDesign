@@ -66,7 +66,12 @@ class Program3 {
             }
         }
 
-    int numPlatforms = bestNumPaintings != null ? bestNumPaintings.length : 0;
+    int numPlatforms;
+    if (bestNumPaintings != null) {
+        numPlatforms = bestNumPaintings.length;
+    } else {
+        numPlatforms = 0;
+    }
     return new Result(numPlatforms, minHeight, bestNumPaintings);
 }
 
