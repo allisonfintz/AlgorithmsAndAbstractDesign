@@ -55,7 +55,10 @@ class Program3 {
             // If this partition has a lower total height, update the best partition
             if (totalHeight < minHeight) {
                 minHeight = totalHeight;
-                bestNumPaintings = numPaintingsList.toArray(new Integer[0]);
+                bestNumPaintings = new int[numPaintingsList.size()];
+                for (int i = 0; i < numPaintingsList.size(); i++) {
+                    bestNumPaintings[i] = numPaintingsList.get(i);
+                }
             }
         }
 
