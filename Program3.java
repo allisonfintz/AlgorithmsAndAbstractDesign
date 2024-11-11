@@ -16,33 +16,34 @@ class Program3 {
      *         and the number of paintings on each platform
      */
     private static Result program3(int n, int w, int[] heights, int[] widths) {
-        int minHeight = Integer.MAX_VALUE;
+         int minHeight = Integer.MAX_VALUE;
         int[] bestNumPaintings = null; 
-        
+    
         // There are 2^(n-1) possible ways to partition the paintings
-        int totalPartitions = (int) Math.pow(2, (n - 1));
-
+        int totalPartitions = (int) Math.pow(2, n - 1);
+    
         for (int partition = 0; partition < totalPartitions; partition++) {
             int totalHeight = 0;
             int start = 0;
             List<Integer> numPaintingsList = new ArrayList<>();
-
+    
             int totalWidth = 0;
             int maxHeight = 0;
-
+            int currentPartition = partition;
+    
             for (int i = 0; i < n; i++) {
                 // Add the current painting to the current platform
                 totalWidth += widths[i];
                 maxHeight = Math.max(maxHeight, heights[i]);
-
+    
                 // If total width exceeds platform width, this partition is invalid
                 if (totalWidth > w) {
                     totalHeight = Integer.MAX_VALUE;
                     break;
                 }
-
+    
                 // If there is a break after the current painting or it's the last painting
-                if (((partition & (1 << i)) != 0) || i == n - 1) {
+                if ((currentPartition % 2 != 0) || i == n - 1) {
                     totalHeight += maxHeight;
                     numPaintingsList.add(i - start + 1);
                     // Reset for the next platform
@@ -50,8 +51,11 @@ class Program3 {
                     totalWidth = 0;
                     maxHeight = 0;
                 }
+    
+                // Update partition by dividing it by 2 to check the next bit in the next iteration
+                currentPartition /= 2;
             }
-
+    
             // If this partition has a lower total height, update the best partition
             if (totalHeight < minHeight) {
                 minHeight = totalHeight;
@@ -62,9 +66,9 @@ class Program3 {
             }
         }
 
-        int numPlatforms = bestNumPaintings != null ? bestNumPaintings.length : 0;
-        return new Result(numPlatforms, minHeight, bestNumPaintings);
-    }
+    int numPlatforms = bestNumPaintings != null ? bestNumPaintings.length : 0;
+    return new Result(numPlatforms, minHeight, bestNumPaintings);
+}
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
