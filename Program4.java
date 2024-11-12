@@ -15,10 +15,10 @@ class Program4 {
      * @return Result object containing the number of platforms, total height of the paintings,
      *         and the number of paintings on each platform
      */
-    private static Result program4(int n, int w, int[] heights, int[] widths) {
+private static Result program4(int n, int w, int[] heights, int[] widths) {
         int[] minHeight = new int[n + 1];
         int[] split = new int[n + 1];
-
+        
         minHeight[0] = 0;
 
         for (int i = 1; i <= n; i++) {
@@ -49,7 +49,12 @@ class Program4 {
         }
 
         int numPlatforms = paintings.size();
-        return new Result(numPlatforms, minHeight[n], paintings.stream().mapToInt(i -> i).toArray());
+        int[] numPaintings = new int[paintings.size()];
+        for (int i = 0; i < paintings.size(); i++) {
+            numPaintings[i] = paintings.get(i);
+        }
+        
+        return new Result(numPlatforms, minHeight[n], numPaintings);
     }
 
     public static void main(String[] args) {
