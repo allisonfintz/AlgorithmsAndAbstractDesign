@@ -19,7 +19,9 @@ class Program5A {
     private static Result program5A(int n, int w, int[] heights, int[] widths) {
         int[] memo = new int[n + 1];
         int[] split = new int[n + 1];
-        Arrays.fill(memo, -1);
+        for (int i = 0; i <= n; i++) {
+            memo[i] = -1;
+        }
         memo[0] = 0;
 
         computeMinTotalHeight(n, w, heights, widths, memo, split);
@@ -34,7 +36,11 @@ class Program5A {
         }
 
         int numPlatforms = paintings.size();
-        return new Result(numPlatforms, memo[n], paintings.stream().mapToInt(i -> i).toArray());
+        int[] paintingsArray = new int[paintings.size()];
+        for (int i = 0; i < paintings.size(); i++) {
+            paintingsArray[i] = paintings.get(i);
+        }
+        return new Result(numPlatforms, memo[n], paintingsArray);
     }
 
     private static int computeMinTotalHeight(int i, int w, int[] heights, int[] widths, int[] memo, int[] split) {
