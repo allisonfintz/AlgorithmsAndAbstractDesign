@@ -15,10 +15,10 @@ class Program2 {
      * @return Result object containing the number of platforms, total height of the
      *         paintings, and the number of paintings on each platform
      */
-    private static Result program2(int n, int W, int[] heights, int[] widths) {
+    static Result program2(int n, int W, int[] heights, int[] widths) {
         int totalHeight = 0;
         int numPlatforms = 0;
-        List<Integer> numPaintingsPerPlatform = new ArrayList<>();
+        List<Integer> paintingsPerPlat = new ArrayList<>();
 
         // Find the index k where heights start increasing
         int k = n; // Default k is n, meaning all heights are non-increasing
@@ -30,73 +30,72 @@ class Program2 {
         }
 
         // Process descending part (from index 0 to k-1)
-        int currentPlatformWidth = 0;
-        int platformStartIndex = 0;
-        int countPaintingsInCurrentPlatform = 0;
+        int currWidth = 0;
+        int startIndex = 0;
+        int counter = 0;
 
         for (int i = 0; i < k; i++) {
-            if (currentPlatformWidth + widths[i] <= W) {
+            if (currWidth + widths[i] <= W) {
                 // Add painting to current platform
-                currentPlatformWidth += widths[i];
-                countPaintingsInCurrentPlatform++;
+                currWidth += widths[i];
+                counter++;
             } else {
                 // Finish current platform
                 numPlatforms++;
-                totalHeight += heights[platformStartIndex]; // Tallest painting is the first one
-                numPaintingsPerPlatform.add(countPaintingsInCurrentPlatform);
+                totalHeight += heights[startIndex]; // Tallest painting is the first one
+                paintingsPerPlat.add(counter);
 
                 // Start new platform
-                currentPlatformWidth = widths[i];
-                platformStartIndex = i;
-                countPaintingsInCurrentPlatform = 1;
+                currWidth = widths[i];
+                startIndex = i;
+                counter = 1;
             }
         }
         // Handle the last platform in descending part
-        if (countPaintingsInCurrentPlatform > 0) {
+        if (counter > 0) {
             numPlatforms++;
-            totalHeight += heights[platformStartIndex];
-            numPaintingsPerPlatform.add(countPaintingsInCurrentPlatform);
+            totalHeight += heights[startIndex];
+            paintingsPerPlat.add(counter);
         }
 
         // Process ascending part (from index k to n-1)
-        currentPlatformWidth = 0;
-        countPaintingsInCurrentPlatform = 0;
-        int currentTallestHeight = 0;
+        currWidth = 0;
+        counter = 0;
+        int tallestHeight = 0;
 
         for (int i = k; i < n; i++) {
-            if (currentPlatformWidth + widths[i] <= W) {
+            if (currWidth + widths[i] <= W) {
                 // Add painting to current platform
-                currentPlatformWidth += widths[i];
-                countPaintingsInCurrentPlatform++;
-                currentTallestHeight = heights[i]; // Heights are increasing
+                currWidth += widths[i];
+                counter++;
+                tallestHeight = heights[i]; // Heights are increasing
             } else {
                 // Finish current platform
                 numPlatforms++;
-                totalHeight += currentTallestHeight; // Tallest painting is the last one
-                numPaintingsPerPlatform.add(countPaintingsInCurrentPlatform);
+                totalHeight += tallestHeight; // Tallest painting is the last one
+                paintingsPerPlat.add(counter);
 
                 // Start new platform
-                currentPlatformWidth = widths[i];
-                currentTallestHeight = heights[i];
-                countPaintingsInCurrentPlatform = 1;
+                currWidth = widths[i];
+                tallestHeight = heights[i];
+                counter = 1;
             }
         }
         // Handle the last platform in ascending part
-        if (countPaintingsInCurrentPlatform > 0) {
+        if (counter > 0) {
             numPlatforms++;
-            totalHeight += currentTallestHeight;
-            numPaintingsPerPlatform.add(countPaintingsInCurrentPlatform);
+            totalHeight += tallestHeight;
+            paintingsPerPlat.add(counter);
         }
 
-        // Convert numPaintingsPerPlatform to int array
-        int[] numPaintings = new int[numPaintingsPerPlatform.size()];
+        // Convert paintingsPerPlat to int array
+        int[] numPaintings = new int[paintingsPerPlat.size()];
         for (int i = 0; i < numPaintings.length; i++) {
-            numPaintings[i] = numPaintingsPerPlatform.get(i);
+            numPaintings[i] = paintingsPerPlat.get(i);
         }
 
         return new Result(numPlatforms, totalHeight, numPaintings);
     }
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
